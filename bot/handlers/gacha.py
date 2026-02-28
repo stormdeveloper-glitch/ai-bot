@@ -6,7 +6,8 @@ from aiogram.utils.chat_action import ChatActionSender
 
 from database.manager import (
     get_or_create_user, get_user, update_user_stats,
-    add_card_to_user, get_user_cards, log_pull
+    add_card_to_user, add_cards_to_user_bulk, get_user_cards, 
+    log_pull, log_pulls_bulk, process_pull_transaction
 )
 from utils.cards import (
     do_single_pull, do_multi_pull,
@@ -87,37 +88,32 @@ async def pull_multi_callback(cb: CallbackQuery):
 @router.callback_query(F.data == "confirm_pull_single")
 async def confirm_single_pull(cb: CallbackQuery):
     await cb.answer("🎰 Pull qilinmoqda...")
-    user = get_user(cb.from_user.id)
-    
-    if not user or user["astrites"] < config.PULL_COST:
-        await cb.message.edit_text("❌ Yetarli Astrites yo'q!", parse_mode="HTML")
-        return
-
     # Execute pull
+    user = get_user(cb.from_user.id)
+    if not user: return
     pity = user["celestia_pity"]
     card = do_single_pull(pity)
     
-    # Check if new card
-    owned_cards = get_user_cards(cb.from_user.id)
-    is_new = add_card_to_user(cb.from_user.id, card["code"])
-    
-    # Update pity and aura
-    is_legendary = card["rarity"] == "Legendary"
-    new_pity = 0 if is_legendary else pity + 1
-    new_astrites = user["astrites"] - config.PULL_COST
-    new_pulls = user["total_pulls"] + 1
-    
-    # Gain Aura if not legendary
-    aura_gain = 0 if is_legendary else 15  # Default 15 aura per non-legendary
-    new_aura = user["aura"] + aura_gain
-
-    update_user_stats(
-        cb.from_user.id,
-        astrites      = new_astrites,
-        aura          = new_aura,
-        celestia_pity = new_pity,
-        total_pulls   = new_pulls
+    # Atomic transaction
+    success = process_pull_transaction(
+        user_id = cb.from_user.id,
+        cost    = config.PULL_COST,
+        new_pity = 0 if card["rarity"] == "Legendary" else pity + 1,
+        aura_gain = 0 if card["rarity"] == "Legendary" else 15,
+        total_pulls_gain = 1
     )
+    
+    if not success:
+        await cb.message.edit_text("❌ Yetarli Astrites yo'q!", parse_mode="HTML")
+        return
+        
+    # Check if new card
+    is_new = add_card_to_user(cb.from_user.id, card["code"])
+    log_pull(cb.from_user.id, card["code"], "single")
+    
+    new_user = get_user(cb.from_user.id)
+    new_astrites = new_user["astrites"]
+    aura_gain = 0 if card["rarity"] == "Legendary" else 15
     log_pull(cb.from_user.id, card["code"], "single")
     
     # Format response
@@ -143,39 +139,39 @@ async def confirm_single_pull(cb: CallbackQuery):
 @router.callback_query(F.data == "confirm_pull_multi")
 async def confirm_multi_pull(cb: CallbackQuery):
     await cb.answer("🎲 10x Pull boshlandi...")
+    # Execute pull
     user = get_user(cb.from_user.id)
+    if not user: return
     cost = config.PULL_COST * config.MULTI_PULL_COUNT
-
-    if not user or user["astrites"] < cost:
-        await cb.message.edit_text("❌ Yetarli Astrites yo'q!", parse_mode="HTML")
-        return
-
     pity = user["celestia_pity"]
     owned_codes = get_user_cards(cb.from_user.id)
     cards = do_multi_pull(pity, config.MULTI_PULL_COUNT)
 
-    # Update DB
+    # Calculate results
     legendary_pulled = [c for c in cards if c["rarity"] == "Legendary"]
     new_pity = 0 if legendary_pulled else min(pity + config.MULTI_PULL_COUNT, config.PITY_HARD)
-    new_astrites = user["astrites"] - cost
-    new_pulls = user["total_pulls"] + config.MULTI_PULL_COUNT
+    aura_gain = (config.MULTI_PULL_COUNT - len(legendary_pulled)) * 15
 
-    # Aura calculation
-    non_legendary_count = config.MULTI_PULL_COUNT - len(legendary_pulled)
-    aura_gain = non_legendary_count * 15
-    new_aura = user["aura"] + aura_gain
-
-    for card in cards:
-        add_card_to_user(cb.from_user.id, card["code"])
-        log_pull(cb.from_user.id, card["code"], "multi")
-
-    update_user_stats(
-        cb.from_user.id,
-        astrites      = new_astrites,
-        aura          = new_aura,
-        celestia_pity = new_pity,
-        total_pulls   = new_pulls
+    # Atomic transaction
+    success = process_pull_transaction(
+        user_id = cb.from_user.id,
+        cost    = cost,
+        new_pity = new_pity,
+        aura_gain = aura_gain,
+        total_pulls_gain = config.MULTI_PULL_COUNT
     )
+
+    if not success:
+        await cb.message.edit_text("❌ Yetarli Astrites yo'q!", parse_mode="HTML")
+        return
+
+    # Bulk update cards and logs
+    card_codes = [c["code"] for c in cards]
+    add_cards_to_user_bulk(cb.from_user.id, card_codes)
+    log_pulls_bulk(cb.from_user.id, card_codes, "multi")
+
+    new_user = get_user(cb.from_user.id)
+    new_astrites = new_user["astrites"]
 
     result_text = format_multi_pull_results(cards, owned_codes)
     result_text += f"\n\n⭐ <b>Qolgan Astrites:</b> {new_astrites:,}"

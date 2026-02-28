@@ -4,7 +4,11 @@ OpenWeatherMap API integratsiyasi.
 Ob-havoga qarab gacha bonus tizimi.
 """
 import aiohttp
+from datetime import datetime
 from config import config
+from utils.logger import get_logger
+
+logger = get_logger("weather")
 
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
@@ -97,9 +101,12 @@ async def get_weather(city: str = None) -> dict | None:
             async with session.get(BASE_URL, params=params, timeout=aiohttp.ClientTimeout(total=5)) as resp:
                 if resp.status == 200:
                     return await resp.json()
-    except Exception:
+                else:
+                    logger.error(f"Weather API error {resp.status}")
+                    return None
+    except Exception as e:
+        logger.error(f"Weather exception: {str(e)}")
         return None
-    return None
 
 
 def parse_bonus(weather_data: dict) -> dict:

@@ -50,7 +50,8 @@ CREATE INDEX IF NOT EXISTS idx_pull_history  ON pull_history(user_id);
 @contextmanager
 def get_db():
     os.makedirs("database", exist_ok=True)
-    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+    # Increase timeout to 30s to prevent 'database is locked' errors
+    conn = sqlite3.connect(DB_PATH, check_same_thread=False, timeout=30)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA foreign_keys=ON")
@@ -108,6 +109,27 @@ def update_user_stats(user_id: int, **kwargs):
         conn.execute(f"UPDATE users SET {sets} WHERE user_id = ?", vals)
 
 
+def process_pull_transaction(user_id: int, cost: int, new_pity: int, aura_gain: int, total_pulls_gain: int) -> bool:
+    """Atomic transaction to check balance and update stats for a pull."""
+    with get_db() as conn:
+        # 1. Check balance inside the transaction
+        user = conn.execute("SELECT astrites FROM users WHERE user_id = ?", (user_id,)).fetchone()
+        if not user or user["astrites"] < cost:
+            return False
+            
+        # 2. Update stats
+        conn.execute(
+            """UPDATE users SET 
+               astrites = astrites - ?, 
+               celestia_pity = ?, 
+               aura = aura + ?, 
+               total_pulls = total_pulls + ? 
+               WHERE user_id = ?""",
+            (cost, new_pity, aura_gain, total_pulls_gain, user_id)
+        )
+        return True
+
+
 # ─────────────────────────────────────────────────────────────
 #  Cards
 # ─────────────────────────────────────────────────────────────
@@ -131,6 +153,17 @@ def add_card_to_user(user_id: int, card_code: str) -> bool:
             return True
         except sqlite3.IntegrityError:
             return False
+
+
+def add_cards_to_user_bulk(user_id: int, card_codes: list[str]):
+    """Optimized bulk insert for 10x pulls."""
+    now = datetime.now().isoformat()
+    data = [(user_id, code, now) for code in card_codes]
+    with get_db() as conn:
+        conn.executemany(
+            "INSERT OR IGNORE INTO user_cards (user_id, card_code, obtained_at) VALUES (?, ?, ?)",
+            data
+        )
 
 
 def has_card(user_id: int, card_code: str) -> bool:
@@ -159,6 +192,17 @@ def log_pull(user_id: int, card_code: str, pull_type: str):
         conn.execute(
             "INSERT INTO pull_history (user_id, card_code, pull_type, pulled_at) VALUES (?, ?, ?, ?)",
             (user_id, card_code, pull_type, datetime.now().isoformat())
+        )
+
+
+def log_pulls_bulk(user_id: int, card_codes: list[str], pull_type: str):
+    """Optimized bulk log for 10x pulls."""
+    now = datetime.now().isoformat()
+    data = [(user_id, code, pull_type, now) for code in card_codes]
+    with get_db() as conn:
+        conn.executemany(
+            "INSERT INTO pull_history (user_id, card_code, pull_type, pulled_at) VALUES (?, ?, ?, ?)",
+            data
         )
 
 

@@ -44,13 +44,11 @@ from bot.middlewares.rate_limit import RateLimitMiddleware
 from bot.handlers import start, card, profile, gacha, collection, admin, economy, ai as ai_handler, weather, imagine
 from bot.handlers import admin_cards
 
+from utils.logger import setup_logger, get_logger
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    stream=sys.stdout,
-)
-logger = logging.getLogger(__name__)
+# Setup global logging
+setup_logger()
+logger = get_logger("main")
 
 
 async def main():

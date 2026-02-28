@@ -7,6 +7,9 @@ import asyncio
 import aiohttp
 import base64
 from config import config
+from utils.logger import get_logger
+
+logger = get_logger("imagen")
 
 IMAGEN_API_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
@@ -50,8 +53,8 @@ async def generate_image(prompt: str, count: int = 1) -> list[bytes] | None:
                     return images if images else None
                 else:
                     error = await resp.text()
-                    print(f"[Imagen] Error {resp.status}: {error[:200]}")
+                    logger.error(f"Imagen API Error {resp.status}: {error[:200]}")
                     return None
     except Exception as e:
-        print(f"[Imagen] Exception: {e}")
+        logger.error(f"Imagen Exception: {str(e)}")
         return None

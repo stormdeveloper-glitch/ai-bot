@@ -69,7 +69,7 @@ async def get_ai_response(user_id: int, message: str) -> tuple[str, float, bool]
     is_online = True
     try:
         model = genai.GenerativeModel(MODEL_NAME)
-        response = model.generate_content(prompt)
+        response = await model.generate_content_async(prompt)
         response_text = response.text.strip()
         log.info("ai_online_response", user_id=user_id,
                  latency_ms=round((time.perf_counter() - start) * 1000, 2))
