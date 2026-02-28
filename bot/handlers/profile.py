@@ -12,70 +12,71 @@ router = Router(name="profile")
 
 
 def build_profile_text(user, card_count: int) -> str:
-    from datetime import date
-    today = date.today().isoformat()
-    daily_status = "✅ Olindi" if user["last_daily"] == today else "🎁 Tayyor!"
-
-    # Progress bar for pity
-    def pity_bar(current: int, max_val: int, length: int = 10) -> str:
-        filled = int((current / max_val) * length)
-        return "█" * filled + "░" * (length - filled)
-
-    cel_bar = pity_bar(user["celestia_pity"],  config.PITY_HARD)
-    arc_bar = pity_bar(user["arcborne_pity"],  config.PITY_HARD)
-
     username = f"@{user['username']}" if user["username"] else "—"
+    astrites = user["astrites"]
+    approx_pulls = astrites // 160
 
     return (
+        f"◆ <b>AURA CATCHER — PROFILE</b> ◆\n"
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"◆ <b>PROFIL</b> ◆\n"
+        f"👤 <b>Tamer:</b> {user['full_name']} ({username})\n"
+        f"🆔 <b>Soul ID:</b> <code>{user['user_id']}</code>\n"
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"\n"
-        f"👤 <b>Ism:</b>      {user['full_name']}\n"
-        f"🆔 <b>Soul ID:</b>  <code>{user['user_id']}</code>\n"
-        f"🔗 <b>Username:</b> {username}\n"
-        f"\n"
-        f"━━ 📊 STATISTIKA ━━\n"
-        f"⭐ <b>Astrites:</b>       <code>{user['astrites']:,}</code>\n"
-        f"🔮 <b>Aura:</b>           <code>{user['aura']:,}</code>\n"
-        f"🍀 <b>Omad darajasi:</b>  {user['luck_rate']:.1f}%\n"
-        f"🎴 <b>Kartalar:</b>       {card_count} ta\n"
-        f"🎲 <b>Jami pulllar:</b>   {user['total_pulls']}\n"
-        f"\n"
-        f"━━ 🔄 PITY ━━\n"
-        f"🌙 <b>Celestia:</b>  {user['celestia_pity']:2d}/{config.PITY_HARD}  [{cel_bar}]\n"
-        f"🌀 <b>Arcborne:</b>  {user['arcborne_pity']:2d}/{config.PITY_HARD}  [{arc_bar}]\n"
-        f"\n"
-        f"🎁 <b>Kunlik sovg'a:</b> {daily_status}\n"
+        f"📊 <b>STATS</b>\n"
+        f"🔮 <b>AURA Points:</b> {user['aura']:,}\n"
+        f"🍀 <b>Luck Rate:</b> {user['luck_rate']:.1f}%\n"
+        f"⭐ <b>Astrites:</b> {astrites:,} (~ {approx_pulls} pulls)\n"
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"<i>Ro'yxatdan: {user['created_at'][:10]}</i>"
+        f"👗 <b>Owned Characters:</b> {card_count}\n"
+        f"🎲 <b>Total Pulls:</b> {user['total_pulls']}\n"
+        f"🌙 <b>Celestia Pity:</b> {user['celestia_pity']} / {config.PITY_HARD}\n"
+        f"🌀 <b>Arcborne Pity:</b> {user['arcborne_pity']} / {config.PITY_HARD}\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"<i>Tap below to open your collection.</i>"
     )
 
 
 def profile_kb() -> object:
     builder = InlineKeyboardBuilder()
     builder.row(
-        InlineKeyboardButton(text="👜 Koleksiyam",    callback_data="my_collection"),
-        InlineKeyboardButton(text="🎁 Kunlik sovg'a", callback_data="daily_reward"),
-    )
-    builder.row(
-        InlineKeyboardButton(text="🔙 Orqaga", callback_data="back_to_menu")
+        InlineKeyboardButton(text="�️ View Collection", callback_data="my_collection")
     )
     return builder.as_markup()
 
 
 @router.message(Command("profile"))
 async def profile_command(msg: Message):
-    user = get_or_create_user(msg.from_user.id, msg.from_user.username, msg.from_user.full_name)
-    card_count = count_user_cards(msg.from_user.id)
-    await msg.answer(build_profile_text(user, card_count), parse_mode="HTML", reply_markup=profile_kb())
+    # Check for reply
+    target_user = msg.reply_to_message.from_user if msg.reply_to_message else msg.from_user
+    
+    user = get_or_create_user(target_user.id, target_user.username, target_user.full_name)
+    card_count = count_user_cards(target_user.id)
+    
+    await msg.answer_photo(
+        photo=config.PROFILE_IMAGE_URL,
+        caption=build_profile_text(user, card_count),
+        parse_mode="HTML",
+        reply_markup=profile_kb()
+    )
 
 
 @router.callback_query(F.data == "my_profile")
 async def profile_callback(cb: CallbackQuery):
     user = get_or_create_user(cb.from_user.id, cb.from_user.username, cb.from_user.full_name)
     card_count = count_user_cards(cb.from_user.id)
-    await cb.message.edit_text(build_profile_text(user, card_count), parse_mode="HTML", reply_markup=profile_kb())
+    
+    # Since the previous message might be text, we better send a new photo or delete the old one
+    try:
+        await cb.message.delete()
+    except:
+        pass
+        
+    await cb.message.answer_photo(
+        photo=config.PROFILE_IMAGE_URL,
+        caption=build_profile_text(user, card_count),
+        parse_mode="HTML",
+        reply_markup=profile_kb()
+    )
     await cb.answer()
 
 

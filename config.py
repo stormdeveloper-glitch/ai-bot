@@ -15,6 +15,7 @@ class Config:
     WEATHER_API_KEY: str = os.getenv("WEATHER_API_KEY", "")
     WEATHER_CITY: str   = os.getenv("WEATHER_CITY", "Toshkent")
     ADMIN_IDS: list     = None
+    PROFILE_IMAGE_URL: str = "https://i.imgur.com/8P6L8Zp.png"  # Default profile background
 
     # ─── Paths ──────────────────────────────────────────────
     DB_PATH: str    = "database/bot.db"
