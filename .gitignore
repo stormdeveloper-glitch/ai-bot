@@ -1,0 +1,46 @@
+# ─── Muhim fayllar (HECH QACHON git ga yuklamang!) ───────────
+.env
+
+# ─── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# ─── Virtual environment ──────────────────────────────────────
+venv/
+.venv/
+env/
+.env/
+
+# ─── Database (lokal ma'lumotlar) ─────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+data/ai_history.db
+
+# ─── Cache ────────────────────────────────────────────────────
+data/cache/
+.cache/
+*.cache
+
+# ─── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+
+# ─── IDE va editor ────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+.DS_Store
+Thumbs.db
+
+# ─── Test fayllar ─────────────────────────────────────────────
+check_db.py
+*.tmp

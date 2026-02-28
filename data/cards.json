@@ -1,0 +1,927 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "code": "1",
+      "name": "Carlotta",
+      "title": "Crimson Aria",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Glacio",
+      "weapon": "Pistols",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A composed general who leads the Shorekeeper with an iron will.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10000,
+        "attack": 450,
+        "defense": 300
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 2,
+      "code": "2",
+      "name": "Jinhsi",
+      "title": "Thunder Empress",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Glacio",
+      "weapon": "Broadblade",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A stern ruler who wields the power of eternal ice.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10500,
+        "attack": 460,
+        "defense": 290
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 3,
+      "code": "3",
+      "name": "Camellya",
+      "title": "Blooming Blade",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Glacio",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A graceful swordswoman whose strikes bloom like frozen flowers.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9800,
+        "attack": 440,
+        "defense": 310
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 4,
+      "code": "4",
+      "name": "Zhezhi",
+      "title": "Paper Oracle",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Glacio",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "An ancient oracle who folds reality like paper.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 8500,
+        "attack": 420,
+        "defense": 280
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 5,
+      "code": "5",
+      "name": "Sanhua",
+      "title": "Frost Petal",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Glacio",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A swift ice dancer whose sword leaves trails of frost.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 7200,
+        "attack": 370,
+        "defense": 250
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 6,
+      "code": "6",
+      "name": "Baizhi",
+      "title": "Gentle Healer",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Glacio",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A dedicated doctor who travels to heal the world.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 8000,
+        "attack": 320,
+        "defense": 280
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 7,
+      "code": "7",
+      "name": "Youhu",
+      "title": "Fox Spirit",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Glacio",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A mischievous fox spirit with hidden healing powers.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 7600,
+        "attack": 330,
+        "defense": 260
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 8,
+      "code": "8",
+      "name": "Aemeath",
+      "title": "Solar Sword",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Fusion",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A blazing swordsman who embodies the power of the sun.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10200,
+        "attack": 470,
+        "defense": 285
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 9,
+      "code": "9",
+      "name": "Changli",
+      "title": "Eternal Flame",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Fusion",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A phoenix-like warrior whose flame never dies.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9600,
+        "attack": 455,
+        "defense": 295
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 10,
+      "code": "10",
+      "name": "Xiangli Yao",
+      "title": "Iron Fist",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Fusion",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A powerful brawler whose fists burn with fusion energy.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10800,
+        "attack": 490,
+        "defense": 270
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 11,
+      "code": "11",
+      "name": "Brant",
+      "title": "Blazing Knight",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Fusion",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A noble knight whose blade is wreathed in undying fire.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10300,
+        "attack": 465,
+        "defense": 300
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 12,
+      "code": "12",
+      "name": "Galbrena",
+      "title": "Lava Titan",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Fusion",
+      "weapon": "Broadblade",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A titanic warrior born from the heart of a volcano.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 12000,
+        "attack": 445,
+        "defense": 320
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 13,
+      "code": "13",
+      "name": "Lupa",
+      "title": "Wolf's Wrath",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Fusion",
+      "weapon": "Broadblade",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A fierce wolf warrior who hunts with burning ferocity.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 11000,
+        "attack": 480,
+        "defense": 280
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 14,
+      "code": "14",
+      "name": "Encore",
+      "title": "Blazing Melody",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Fusion",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A young girl with a passion for music and fire.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 7500,
+        "attack": 380,
+        "defense": 250
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 15,
+      "code": "15",
+      "name": "Chixia",
+      "title": "Firestarter",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Fusion",
+      "weapon": "Pistols",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A hot-blooded gunner with explosive firepower.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 7000,
+        "attack": 360,
+        "defense": 245
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 16,
+      "code": "16",
+      "name": "Calcharo",
+      "title": "Death's Messenger",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Electro",
+      "weapon": "Broadblade",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A grim reaper figure who commands the power of lightning.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10600,
+        "attack": 475,
+        "defense": 285
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 17,
+      "code": "17",
+      "name": "Yinlin",
+      "title": "Thunder Witch",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Electro",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A cunning sorceress who weaves lightning into deadly spells.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9000,
+        "attack": 435,
+        "defense": 275
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 18,
+      "code": "18",
+      "name": "Zani",
+      "title": "Storm Dancer",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Electro",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "An agile fighter who moves like lightning itself.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9400,
+        "attack": 460,
+        "defense": 270
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 19,
+      "code": "19",
+      "name": "Phoebe",
+      "title": "Resonance Prophet",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Electro",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A prophet who foresees the resonance of all things.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 8800,
+        "attack": 425,
+        "defense": 280
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 20,
+      "code": "20",
+      "name": "Yuanwu",
+      "title": "Thunder Monk",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Electro",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A disciplined monk who channels thunder through meditation.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 8200,
+        "attack": 340,
+        "defense": 290
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 21,
+      "code": "21",
+      "name": "Taoqi",
+      "title": "Stone Wall",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Electro",
+      "weapon": "Broadblade",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "An immovable defender with an impenetrable electric shield.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9500,
+        "attack": 310,
+        "defense": 350
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 22,
+      "code": "22",
+      "name": "Jiyan",
+      "title": "Windborne Warrior",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Aero",
+      "weapon": "Broadblade",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "Commander of the Huaxu military with unmatched combat prowess.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 11000,
+        "attack": 480,
+        "defense": 280
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 23,
+      "code": "23",
+      "name": "Ciaccona",
+      "title": "Wind Sonata",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Aero",
+      "weapon": "Pistols",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A musical prodigy who composes symphonies of wind.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9200,
+        "attack": 440,
+        "defense": 275
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 24,
+      "code": "24",
+      "name": "Jianxin",
+      "title": "Tempest Guardian",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Aero",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A stoic guardian who controls the winds as a shield.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10400,
+        "attack": 420,
+        "defense": 315
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 25,
+      "code": "25",
+      "name": "Rover (Aero)",
+      "title": "Sky Walker",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Aero",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "The wandering resonator who has mastered the power of wind.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9500,
+        "attack": 430,
+        "defense": 305
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 26,
+      "code": "26",
+      "name": "Yangyang",
+      "title": "Wind Walker",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Aero",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A swift scout who moves like the wind.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 6800,
+        "attack": 355,
+        "defense": 245
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 27,
+      "code": "27",
+      "name": "Aalto",
+      "title": "Mist Dancer",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Aero",
+      "weapon": "Pistols",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A mysterious agent who manipulates mist and illusions.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 6500,
+        "attack": 345,
+        "defense": 240
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 28,
+      "code": "28",
+      "name": "Luuk Herssen",
+      "title": "Golden Radiance",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Spectro",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A radiant warrior newly arrived in v3.1, shining with spectro energy.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10100,
+        "attack": 468,
+        "defense": 292
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 29,
+      "code": "29",
+      "name": "Phrolova",
+      "title": "Spectral Blade",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Spectro",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A spectral warrior who phases through reality itself.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9700,
+        "attack": 455,
+        "defense": 288
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 30,
+      "code": "30",
+      "name": "Roccia",
+      "title": "Stone Fist",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Spectro",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A rock-solid brawler with unstoppable punching power.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10700,
+        "attack": 450,
+        "defense": 310
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 31,
+      "code": "31",
+      "name": "The Shorekeeper",
+      "title": "Tides of Eternity",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Spectro",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "Guardian of the eternal shore between life and resonance.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 8600,
+        "attack": 415,
+        "defense": 285
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 32,
+      "code": "32",
+      "name": "Verina",
+      "title": "Life's Bloom",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Spectro",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A healer of unparalleled skill who nurtures life with spectro light.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 8400,
+        "attack": 395,
+        "defense": 295
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 33,
+      "code": "33",
+      "name": "Rover (Spectro)",
+      "title": "Wandering Resonator",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Spectro",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A mysterious traveler awakened from a deep slumber.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9500,
+        "attack": 420,
+        "defense": 320
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 34,
+      "code": "34",
+      "name": "Lumi",
+      "title": "Light Puppet",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Spectro",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A living doll that harnesses spectral energy to protect allies.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 7400,
+        "attack": 325,
+        "defense": 265
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 35,
+      "code": "35",
+      "name": "Qiuyuan",
+      "title": "Autumn Tide",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Spectro",
+      "weapon": "Rectifier",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A calm resonator who heals with the warmth of autumn light.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 7800,
+        "attack": 310,
+        "defense": 275
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 36,
+      "code": "36",
+      "name": "Cantarella",
+      "title": "Venom Aria",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Havoc",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A sinister songstress whose melodies carry deadly poison.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9300,
+        "attack": 458,
+        "defense": 280
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 37,
+      "code": "37",
+      "name": "Cartethyia",
+      "title": "Chaos Butterfly",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Havoc",
+      "weapon": "Pistols",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A chaotic butterfly spirit that unravels reality with each wing beat.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9100,
+        "attack": 448,
+        "defense": 278
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 38,
+      "code": "38",
+      "name": "Rover (Havoc)",
+      "title": "Void Walker",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Havoc",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A wanderer who has embraced the power of havoc and chaos.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 9500,
+        "attack": 435,
+        "defense": 315
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 39,
+      "code": "39",
+      "name": "Lingyang",
+      "title": "Lion's Roar",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Havoc",
+      "weapon": "Gauntlets",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A lion-like martial artist whose roar shakes the heavens.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10000,
+        "attack": 470,
+        "defense": 275
+      },
+      "drop_rate": 0.7
+    },
+    {
+      "id": 40,
+      "code": "40",
+      "name": "Danjin",
+      "title": "Crimson Dancer",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Havoc",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A fierce swordswoman who channels chaos into power.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 7200,
+        "attack": 400,
+        "defense": 240
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 41,
+      "code": "41",
+      "name": "Mortefi",
+      "title": "Shadow Archer",
+      "rarity": "Epic",
+      "rarity_stars": 4,
+      "element": "Havoc",
+      "weapon": "Pistols",
+      "series": "Wuthering Waves",
+      "enabled": true,
+      "description": "A silent marksman who strikes from the shadows.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 6900,
+        "attack": 375,
+        "defense": 235
+      },
+      "drop_rate": 6.0
+    },
+    {
+      "id": 42,
+      "code": "42",
+      "name": "Sigrika",
+      "title": "Upcoming Legend",
+      "rarity": "Legendary",
+      "rarity_stars": 5,
+      "element": "Spectro",
+      "weapon": "Sword",
+      "series": "Wuthering Waves",
+      "enabled": false,
+      "description": "A mysterious new resonator coming in version 3.2.",
+      "image_url": null,
+      "image_file_id": null,
+      "base_stats": {
+        "hp": 10000,
+        "attack": 450,
+        "defense": 300
+      },
+      "drop_rate": 0.7
+    }
+  ],
+  "rarity_config": {
+    "Legendary": {
+      "emoji": "🌟",
+      "color": "gold",
+      "stars": "⭐⭐⭐⭐⭐",
+      "label": "LEGENDARY"
+    },
+    "Epic": {
+      "emoji": "💜",
+      "color": "purple",
+      "stars": "⭐⭐⭐⭐",
+      "label": "EPIC"
+    },
+    "Rare": {
+      "emoji": "💙",
+      "color": "blue",
+      "stars": "⭐⭐⭐",
+      "label": "RARE"
+    },
+    "Uncommon": {
+      "emoji": "💚",
+      "color": "green",
+      "stars": "⭐⭐",
+      "label": "UNCOMMON"
+    }
+  },
+  "element_emojis": {
+    "Glacio": "❄️",
+    "Fusion": "🔥",
+    "Aero": "💨",
+    "Electro": "⚡",
+    "Havoc": "🌀",
+    "Spectro": "✨"
+  },
+  "weapon_emojis": {
+    "Sword": "⚔️",
+    "Broadblade": "🗡️",
+    "Pistols": "🔫",
+    "Rectifier": "🔮",
+    "Gauntlets": "👊"
+  }
+}
