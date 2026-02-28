@@ -1,5 +1,7 @@
 # bot/handlers/imagine.py
 import io
+import os
+import time
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, BufferedInputFile
@@ -7,6 +9,9 @@ from aiogram.utils.chat_action import ChatActionSender
 
 from utils.imagen import generate_image
 from config import config
+
+# Ensure data/generated directory exists
+os.makedirs("data/generated", exist_ok=True)
 
 router = Router(name="imagine")
 
@@ -54,13 +59,21 @@ async def imagine_command(msg: Message):
 
     # Send first generated image
     img_bytes = images[0]
-    img_file = BufferedInputFile(img_bytes, filename="aura_generated.png")
+    
+    # Save locally
+    filename = f"gen_{msg.from_user.id}_{int(time.time())}.png"
+    filepath = os.path.join("data/generated", filename)
+    with open(filepath, "wb") as f:
+        f.write(img_bytes)
+
+    img_file = BufferedInputFile(img_bytes, filename=filename)
 
     await msg.answer_photo(
         photo=img_file,
         caption=(
             f"🎨 <b>AI Generated</b>\n"
-            f"📝 <i>{prompt[:100]}</i>"
+            f"📝 <i>{prompt[:100]}</i>\n\n"
+            f"💾 <i>Fayl: {filename}</i>"
         ),
         parse_mode="HTML"
     )

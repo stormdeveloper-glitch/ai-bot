@@ -26,6 +26,7 @@ data/ai_history.db
 
 # ─── Cache ────────────────────────────────────────────────────
 data/cache/
+data/generated/
 .cache/
 *.cache
 
