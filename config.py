@@ -1,12 +1,17 @@
 # config.py
 import os
 from dataclasses import dataclass
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 @dataclass
 class Config:
     # ─── Telegram ───────────────────────────────────────────
-    BOT_TOKEN: str      = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+    BOT_TOKEN: str      = os.getenv("BOT_TOKEN", "")
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+    NANO_BANANA_API_KEY: str = os.getenv("NANO_BANANA_API_KEY", "")
     WEATHER_API_KEY: str = os.getenv("WEATHER_API_KEY", "")
     WEATHER_CITY: str   = os.getenv("WEATHER_CITY", "Toshkent")
     ADMIN_IDS: list     = None
