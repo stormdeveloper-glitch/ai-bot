@@ -183,19 +183,21 @@ async def add_bot_cmd(msg: Message):
         env = os.environ.copy()
         env["BOT_INSTANCE_NAME"] = name
         
-        # On Windows
-        CREATE_NEW_PROCESS_GROUP = 0x00000200
-        DETACHED_PROCESS = 0x00000008
-        
-        subprocess.Popen(
-            [sys.executable, "main.py"],
-            env=env,
-            creationflags=CREATE_NEW_PROCESS_GROUP | DETACHED_PROCESS,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            close_fds=True
-        )
+        # Cross-platform detached process
+        kwargs = {
+            "env": env,
+            "stdin": subprocess.DEVNULL,
+            "stdout": subprocess.DEVNULL,
+            "stderr": subprocess.DEVNULL,
+            "close_fds": True
+        }
+        if sys.platform == "win32":
+            # CREATE_NEW_PROCESS_GROUP | DETACHED_PROCESS
+            kwargs["creationflags"] = 0x00000200 | 0x00000008
+        else:
+            kwargs["start_new_session"] = True
+            
+        subprocess.Popen([sys.executable, "main.py"], **kwargs)
         await msg.answer(f"🚀 {name} ishga tushirildi (fon rejimida).")
     except Exception as e:
         await msg.answer(f"❌ Ishga tushirishda xatolik: {e}\nLekin config saqlandi.")
@@ -308,18 +310,20 @@ async def add_bot_final(msg: Message, state: FSMContext):
     try:
         env = os.environ.copy()
         env["BOT_INSTANCE_NAME"] = name
-        CREATE_NEW_PROCESS_GROUP = 0x00000200
-        DETACHED_PROCESS = 0x00000008
         
-        subprocess.Popen(
-            [sys.executable, "main.py"],
-            env=env,
-            creationflags=CREATE_NEW_PROCESS_GROUP | DETACHED_PROCESS,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            close_fds=True
-        )
+        kwargs = {
+            "env": env,
+            "stdin": subprocess.DEVNULL,
+            "stdout": subprocess.DEVNULL,
+            "stderr": subprocess.DEVNULL,
+            "close_fds": True
+        }
+        if sys.platform == "win32":
+            kwargs["creationflags"] = 0x00000200 | 0x00000008
+        else:
+            kwargs["start_new_session"] = True
+            
+        subprocess.Popen([sys.executable, "main.py"], **kwargs)
         await msg.answer(f"🚀 {name} ishga tushirildi.")
     except Exception as e:
         await msg.answer(f"❌ Xatolik: {e}")
