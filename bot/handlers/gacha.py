@@ -94,10 +94,14 @@ async def confirm_single_pull(cb: CallbackQuery):
     pity = user["celestia_pity"]
     card = do_single_pull(pity)
     
+    # Infinite for admins
+    from bot.handlers.admin import is_admin
+    actual_cost = 0 if is_admin(cb.from_user.id) else config.PULL_COST
+
     # Atomic transaction
     success = process_pull_transaction(
         user_id = cb.from_user.id,
-        cost    = config.PULL_COST,
+        cost    = actual_cost,
         new_pity = 0 if card["rarity"] == "Legendary" else pity + 1,
         aura_gain = 0 if card["rarity"] == "Legendary" else 15,
         total_pulls_gain = 1
@@ -120,7 +124,7 @@ async def confirm_single_pull(cb: CallbackQuery):
     caption = format_card_info(card, is_new=is_new)
     caption += f"\n\n⭐ <b>Qolgan Astrites:</b> {new_astrites:,}"
     if aura_gain:
-        caption += f"\n🔮 <b>Aura olindi:</b> +{aura_gain}"
+        caption += f"\n🔮 <b>Mana (MP) olindi:</b> +{aura_gain}"
 
     async with ChatActionSender.upload_photo(bot=cb.bot, chat_id=cb.message.chat.id):
         if card.get("image_file_id"):
@@ -152,10 +156,14 @@ async def confirm_multi_pull(cb: CallbackQuery):
     new_pity = 0 if legendary_pulled else min(pity + config.MULTI_PULL_COUNT, config.PITY_HARD)
     aura_gain = (config.MULTI_PULL_COUNT - len(legendary_pulled)) * 15
 
+    # Infinite for admins
+    from bot.handlers.admin import is_admin
+    actual_cost = 0 if is_admin(cb.from_user.id) else cost
+
     # Atomic transaction
     success = process_pull_transaction(
         user_id = cb.from_user.id,
-        cost    = cost,
+        cost    = actual_cost,
         new_pity = new_pity,
         aura_gain = aura_gain,
         total_pulls_gain = config.MULTI_PULL_COUNT
@@ -176,6 +184,6 @@ async def confirm_multi_pull(cb: CallbackQuery):
     result_text = format_multi_pull_results(cards, owned_codes)
     result_text += f"\n\n⭐ <b>Qolgan Astrites:</b> {new_astrites:,}"
     if aura_gain:
-        result_text += f"\n🔮 <b>Aura olindi:</b> +{aura_gain}"
+        result_text += f"\n🔮 <b>Mana (MP) olindi:</b> +{aura_gain}"
 
     await cb.message.edit_text(result_text, parse_mode="HTML", reply_markup=multi_pull_back_kb())

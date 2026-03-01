@@ -5,6 +5,7 @@ Kalit so'zlar asosida eng mos javobni qaytaradi.
 """
 import random
 import re
+from config import config
 
 # ─── Javoblar bazasi ─────────────────────────────────────────────
 RESPONSES = {
@@ -29,23 +30,23 @@ RESPONSES = {
         "• 💫 Vibra — Noyob (Rare)\n"
         "• 🌀 Echo — Oddiy (Common)",
     ],
-    "aura|refine|luck|omad|bless|duo": [
-        "🔮 Aura tizimi:\n"
-        "• Pull qilganda Aura yig'asiz (+15 har pull)\n"
-        "• /refine — 1000 Aura → +5% Luck\n"
-        "• /bless — 700 Aura bilan boshqaga Luck bering",
+    "mana|mp|refine|luck|omad|bless|duo": [
+        "🔮 Mana (MP) tizimi:\n"
+        "• Sarguzasht davomida Mana yig'asiz (+15 har pull)\n"
+        "• /refine — 1000 Mana → +5% Luck\n"
+        "• /bless — 700 Mana bilan boshqaga Luck bering",
 
         "🍀 Luck (omad) darajasi qanchalik yuqori bo'lsa,\n"
-        "noyob kartalar chiqish ehtimoli shunchalik ortadi!\n"
-        "/refine buyrug'i bilan Aura ni Luck ga aylantiring.",
+        "noyob grimoirlar chiqish ehtimoli shunchalik ortadi!\n"
+        "/refine buyrug'i bilan Mana'ni Luck ga aylantiring.",
     ],
     "profil|profile|stats|statistika": [
-        "👤 Profilingizni ko'rish uchun /profile buyrug'ini ishlating!\n"
+        "👤 Mage License (profilingiz)ni ko'rish uchun /profile buyrug'ini ishlating!\n"
         "U yerda:\n"
         "• 💎 Astrites miqdori\n"
-        "• 🔮 Aura miqdori\n"
+        "• 🔮 Mana (MP) miqdori\n"
         "• 🍀 Luck darajasi\n"
-        "• 🎴 Kartalar soni\n"
+        "• 📚 Grimoirlar soni\n"
         "• 🔄 Pity hisoblagich",
     ],
     "kunlik|daily|sovga|sovg": [
@@ -81,11 +82,11 @@ RESPONSES = {
         "/ai — AI yordamchi",
     ],
     "salom|hello|hi|hey|assalomu": [
-        "👋 Salom! Men AuraX AI yordamchisiman.\n"
-        "Gacha, kartalar, va bot haqida savol bering!",
+        f"👋 Salom. Men {config.BOT_NAME}man. Men senga sehrli sayohatingda yordam beraman.\n"
+        "Savollaring bo'lsa, /ai orqali so'ra.",
 
-        "✨ Assalomu alaykum! AuraX botiga xush kelibsiz!\n"
-        "Qanday yordam bera olaman?",
+        f"✨ Assalomu alaykum. {config.BOT_NAME}'s Journey'ga xush kelibsiz.\n"
+        "Sizga sayohatingizda qanday yordam bera olaman?",
     ],
     "rahmat|thanks|tashakkur|spasibo": [
         "😊 Arzimaydi! Yana savol bo'lsa murojaat qiling!",
@@ -95,13 +96,12 @@ RESPONSES = {
 
 # ─── Default javoblar ───────────────────────────────────────────
 DEFAULT_RESPONSES = [
-    "🤖 Savolingizni tushunmadim. Boshqacha so'rab ko'ring.\n"
+    "🤖 Kechirasan, seni tushunmadim. Men uzoq umr ko'rganman, lekin hamma narsani ham bilmayman.\n"
     "Yordam uchun /help buyrug'ini ishlating.",
 
-    "🔍 Bu mavzu bo'yicha ma'lumotim cheklangan. /help orqali mavjud buyruqlarni ko'ring.",
+    "🔍 Bu mavzu bo'yicha bilimga ega emasman. Kutubxonadan (help'dan) qidirib ko'r.",
 
-    "💡 Aniqroq savol bersangiz, yaxshiroq javob bera olaman!\n"
-    "Masalan: 'pull qanday ishlaydi?' yoki 'aura nima?'",
+    "💡 Aniqroq so'ra. Sehr-jodu aniqlikni yoqtiradi.",
 ]
 
 

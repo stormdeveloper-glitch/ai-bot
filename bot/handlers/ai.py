@@ -5,6 +5,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.utils.chat_action import ChatActionSender
 from ai_core.engine import get_ai_response
+from config import config
 
 router = Router(name="ai")
 
@@ -26,10 +27,10 @@ async def ai_command(msg: Message):
     args = msg.text.split(maxsplit=1)
     if len(args) < 2 or not args[1].strip():
         await msg.reply(
-            "🤖 <b>AuraX AI</b>\n\n"
-            "Savol berish uchun:\n"
+            f"🧙‍♀️ <b>{config.BOT_NAME} AI</b>\n\n"
+            "Sehrgar sifatida savollaringizga javob beraman:\n"
             "<code>/ai Sizning savolingiz</code>\n\n"
-            "Misol: <code>/ai Celestia kartasini qanday olaman?</code>",
+            "Misol: <code>/ai Sehr-jodu haqida nimalarni bilasan?</code>",
             parse_mode="HTML"
         )
         return
@@ -45,6 +46,6 @@ async def ai_command(msg: Message):
     latency_info = f" · ⚡{latency_ms:.0f}ms" if latency_ms > 0 else ""
 
     await msg.reply(
-        f"🤖 <b>AuraX AI</b> <i>({status}{latency_info})</i>\n\n{response_text}",
+        f"🧙‍♀️ <b>{config.BOT_NAME} AI</b> <i>({status}{latency_info})</i>\n\n{response_text}",
         parse_mode="HTML"
     )

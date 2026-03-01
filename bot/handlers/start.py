@@ -3,20 +3,22 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, CallbackQuery
 
-from database.manager import get_or_create_user, get_user
+from database.manager import get_or_create_user
 from bot.keyboards.inline import main_menu_kb
+from config import config
 
 router = Router(name="start")
 
-WELCOME_TEXT = """
-🎮 <b>ANIME CARD COLLECTOR</b> ga xush kelibsiz!
+def get_welcome_text():
+    return f"""
+🧙‍♀️ <b>{config.BOT_NAME.upper()}'S JOURNEY</b> ga xush kelibsiz!
 
 ━━━━━━━━━━━━━━━━━━━━━━
 Siz bu yerda:
 
-🎴 Anime kartalarini <b>to'playsiz</b>
+🎴 Anime kartalarini (Grimoirlarni) <b>to'playsiz</b>
 🎰 Gacha tizimi orqali <b>pull qilasiz</b>
-👤 O'z <b>profilingizni</b> ko'rasiz
+👤 O'z <b>sehrgar profilingizni</b> ko'rasiz
 🏆 <b>Reytingda</b> o'rinni egallaysiz
 
 ━━━━━━━━━━━━━━━━━━━━━━
@@ -30,22 +32,30 @@ HELP_TEXT = """
 ━━━━━━━━━━━━━━━━━━━━━━
 
 🎮 <b>Asosiy buyruqlar:</b>
-/start    — Bosh menu
-/profile  — Profilingiz
-/card [kod] — Karta ma'lumoti
-/collection — Koleksiyangiz
-/pull     — 1x pull (160 ⭐)
-/multipull — 10x pull (1600 ⭐)
-/daily    — Kunlik sovg'a
-/top      — Reyting
+/start        — Bosh menu
+/help         — Buyruqlar ro'yxati
+/profile      — Profilingiz
+/card [kod]    — Karta ma'lumoti
+/collection   — Koleksiyangiz
+/pull         — 1x pull (160 ⭐)
+/multipull    — 10x pull (1600 ⭐)
+/daily        — Kunlik sovg'a
+/top          — Reyting
 
-📋 <b>Misollar:</b>
-<code>/card 1</code> — Carlotta kartasi
-<code>/card 10</code> — Aalto kartasi
+🤖 <b>AI va Kommunikatsiya:</b>
+/ai [savol]    — AI yordamchi (Frieren)
+/weather [joy] — Ob-havo ma'lumoti
+/imagine [text] — Rasm chizish (AI)
+@bot_username — Inline qidiruv (chatda)
+
+⚙️ <b>Botni Boshqarish:</b>
+/addbot       — Yangi bot qo'shish
+/deletebot    — O'zingiz yaratgan botni o'chirish
+/admin        — Admin panel (faqat adminlar)
 
 ━━━━━━━━━━━━━━━━━━━━━━
 ⭐ <b>Pity tizimi:</b>
-• 60-pull: Yumshoq pity boshladi
+• 60-pull: Yumshoq pity boshlanadi
 • 80-pull: Kafolatlangan Legendary!
 ━━━━━━━━━━━━━━━━━━━━━━
 """
@@ -58,7 +68,7 @@ async def start_handler(msg: Message):
         username  = msg.from_user.username,
         full_name = msg.from_user.full_name,
     )
-    await msg.answer(WELCOME_TEXT, parse_mode="HTML", reply_markup=main_menu_kb())
+    await msg.answer(get_welcome_text(), parse_mode="HTML", reply_markup=main_menu_kb())
 
 
 @router.message(Command("help"))
@@ -69,7 +79,7 @@ async def help_handler(msg: Message):
 @router.callback_query(F.data == "back_to_menu")
 async def back_to_menu(cb: CallbackQuery):
     await cb.message.edit_text(
-        "🎮 <b>ANIME CARD COLLECTOR</b>\n\n"
+        f"🧙‍♀️ <b>{config.BOT_NAME.upper()}'S JOURNEY</b>\n\n"
         "Quyidagi tugmalardan birini tanlang:",
         parse_mode="HTML",
         reply_markup=main_menu_kb()

@@ -19,6 +19,10 @@ def main_menu_kb() -> InlineKeyboardMarkup:
     )
     builder.row(
         InlineKeyboardButton(text="📖 Barcha kartalar",    callback_data="all_cards"),
+        InlineKeyboardButton(text="🤖 Bot qo'shish",    callback_data="admin_add_bot"),
+    )
+    builder.row(
+        InlineKeyboardButton(text="🚀 Botingizni o'chirish", callback_data="admin_del_bot"),
     )
     return builder.as_markup()
 
@@ -79,6 +83,9 @@ def admin_kb() -> InlineKeyboardMarkup:
     )
     builder.row(
         InlineKeyboardButton(text="➕ Karta qo'shish",   callback_data="admin_add_card"),
+        InlineKeyboardButton(text="🤖 Bot qo'shish",    callback_data="admin_add_bot"),
+    )
+    builder.row(
         InlineKeyboardButton(text="🔙 Orqaga",           callback_data="back_to_menu"),
     )
     return builder.as_markup()

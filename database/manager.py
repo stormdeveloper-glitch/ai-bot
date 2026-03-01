@@ -26,10 +26,28 @@ CREATE TABLE IF NOT EXISTS users (
     last_daily     TEXT
 );
 
+CREATE TABLE IF NOT EXISTS cards (
+    id            INTEGER PRIMARY KEY,
+    code          TEXT UNIQUE NOT NULL,
+    name          TEXT NOT NULL,
+    title         TEXT,
+    rarity        TEXT NOT NULL,
+    rarity_stars  INTEGER DEFAULT 3,
+    element       TEXT,
+    weapon        TEXT,
+    series        TEXT,
+    description   TEXT,
+    artist        TEXT,
+    image_url     TEXT,
+    image_file_id TEXT,
+    drop_rate     REAL DEFAULT 0.0,
+    enabled       INTEGER DEFAULT 1
+);
+
 CREATE TABLE IF NOT EXISTS user_cards (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id     INTEGER NOT NULL REFERENCES users(user_id),
-    card_code   TEXT    NOT NULL,
+    card_code   TEXT    NOT NULL REFERENCES cards(code),
     obtained_at TEXT    NOT NULL,
     UNIQUE(user_id, card_code)
 );
@@ -37,13 +55,21 @@ CREATE TABLE IF NOT EXISTS user_cards (
 CREATE TABLE IF NOT EXISTS pull_history (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id     INTEGER NOT NULL REFERENCES users(user_id),
-    card_code   TEXT    NOT NULL,
+    card_code   TEXT    NOT NULL REFERENCES cards(code),
     pull_type   TEXT    NOT NULL,   -- 'single' | 'multi'
     pulled_at   TEXT    NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS card_images (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    card_code   TEXT NOT NULL REFERENCES cards(code),
+    file_id     TEXT NOT NULL,
+    added_at    TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_user_cards    ON user_cards(user_id);
 CREATE INDEX IF NOT EXISTS idx_pull_history  ON pull_history(user_id);
+CREATE INDEX IF NOT EXISTS idx_cards_code    ON cards(code);
 """
 
 
@@ -241,3 +267,58 @@ def get_leaderboard(limit: int = 10) -> list:
             (limit,)
         ).fetchall()
     return [dict(r) for r in rows]
+
+
+# ─────────────────────────────────────────────────────────────
+#  Migration & Maintenance
+# ─────────────────────────────────────────────────────────────
+def sync_cards_from_json():
+    """Import cards from data/cards.json into database."""
+    from config import config
+    if not os.path.exists(config.CARDS_JSON):
+        return
+        
+    with open(config.CARDS_JSON, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        
+    with get_db() as conn:
+        for card in data.get("cards", []):
+            conn.execute(
+                """INSERT OR REPLACE INTO cards 
+                   (id, code, name, title, rarity, rarity_stars, element, weapon, 
+                    series, description, artist, image_url, image_file_id, drop_rate, enabled)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    card.get("id"), card.get("code"), card.get("name"), card.get("title"),
+                    card.get("rarity"), card.get("rarity_stars", 3), card.get("element"),
+                    card.get("weapon"), card.get("series"), card.get("description"),
+                    card.get("artist"), card.get("image_url"), card.get("image_file_id"),
+                    card.get("drop_rate", 0.0), 1 if card.get("enabled", True) else 0
+                )
+            )
+
+def reset_all_astrites(amount: int = 1600):
+    """Emergency fix to give all users a balance reset."""
+    with get_db() as conn:
+        conn.execute("UPDATE users SET astrites = MAX(astrites, ?)", (amount,))
+
+def get_all_cards_db(enabled_only: bool = True) -> list:
+    query = "SELECT * FROM cards"
+    if enabled_only:
+        query += " WHERE enabled = 1"
+    with get_db() as conn:
+        rows = conn.execute(query).fetchall()
+    return [dict(r) for r in rows]
+
+def get_card_db(code: str) -> Optional[dict]:
+    with get_db() as conn:
+        row = conn.execute("SELECT * FROM cards WHERE code = ?", (code,)).fetchone()
+    return dict(row) if row else None
+
+def add_card_image(card_code: str, file_id: str):
+    """Log an image file_id to the card_images table."""
+    with get_db() as conn:
+        conn.execute(
+            "INSERT INTO card_images (card_code, file_id, added_at) VALUES (?, ?, ?)",
+            (card_code, file_id, datetime.now().isoformat())
+        )

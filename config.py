@@ -1,5 +1,6 @@
 # config.py
 import os
+import json
 from dataclasses import dataclass
 from dotenv import load_dotenv
 
@@ -15,7 +16,8 @@ class Config:
     WEATHER_API_KEY: str = os.getenv("WEATHER_API_KEY", "")
     WEATHER_CITY: str   = os.getenv("WEATHER_CITY", "Toshkent")
     ADMIN_IDS: list     = None
-    PROFILE_IMAGE_URL: str = "https://i.imgur.com/8P6L8Zp.png"  # Default profile background
+    PROFILE_IMAGE_URL: str = "https://i.imgur.com/8YlQ3L3.jpeg"  # Frieren-themed background
+    BOT_NAME: str       = "FRIEREN"
 
     # ─── Paths ──────────────────────────────────────────────
     DB_PATH: str    = "database/bot.db"
@@ -40,6 +42,36 @@ class Config:
     RATE_LIMIT_SECONDS: int  = 10
 
     def __post_init__(self):
+        # Load from config.json if it exists
+        config_path = "config.json"
+        instance_name = os.getenv("BOT_INSTANCE_NAME")
+        
+        if os.path.exists(config_path):
+            try:
+                with open(config_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    bots = data.get("bots", [])
+                    
+                    # Find instance by name or use default
+                    bot_config = None
+                    if instance_name:
+                        bot_config = next((b for b in bots if b["name"] == instance_name), None)
+                    
+                    if not bot_config:
+                        bot_config = next((b for b in bots if b.get("is_default")), None)
+                    
+                    if bot_config:
+                        if bot_config.get("token"):
+                            self.BOT_TOKEN = bot_config["token"]
+                        if bot_config.get("admin_ids"):
+                            self.ADMIN_IDS = bot_config["admin_ids"]
+                        if bot_config.get("name"):
+                            self.BOT_NAME = bot_config["name"]
+                        # You can add more fields here as needed
+            except Exception as e:
+                print(f"Error loading config.json: {e}")
+
+        # Final fallback for ADMIN_IDS from .env if still None
         if self.ADMIN_IDS is None:
             admin_str = os.getenv("ADMIN_IDS", "")
             self.ADMIN_IDS = [

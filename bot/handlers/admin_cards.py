@@ -763,3 +763,34 @@ async def set_image_via_reply(msg: Message):
         )
     else:
         await msg.reply(confirm_text, parse_mode="HTML", reply_markup=b.as_markup())
+
+
+@router.message(Command("saveimage"))
+async def save_image_to_db(msg: Message):
+    """
+    Rasmga reply qilib /saveimage <kod> deb yozilsa, rasm faqat DB ga saqlanadi.
+    """
+    if not is_admin(msg.from_user.id): return
+
+    args = msg.text.split()
+    if len(args) < 2:
+        return await msg.reply("Foydalanish: Rasmga reply qilib <code>/saveimage WW001</code> deb yozing.", parse_mode="HTML")
+
+    code = args[1].strip().upper()
+    replied = msg.reply_to_message
+    if not replied:
+        return await msg.reply("❌ Rasmga reply qiling!")
+
+    file_id = None
+    if replied.photo:
+        file_id = replied.photo[-1].file_id
+    elif replied.document and replied.document.mime_type and replied.document.mime_type.startswith("image/"):
+        file_id = replied.document.file_id
+
+    if not file_id:
+        return await msg.reply("❌ Reply qilingan xabarda rasm topilmadi.")
+
+    from database.manager import add_card_image
+    add_card_image(code, file_id)
+
+    await msg.reply(f"✅ Rasm <code>{code}</code> koleksiyasiga (DB) saqlandi.", parse_mode="HTML")

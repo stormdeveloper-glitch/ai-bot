@@ -3,7 +3,7 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, URLInputFile
 
 from database.manager import get_or_create_user, count_user_cards, claim_daily
 from config import config
@@ -17,22 +17,21 @@ def build_profile_text(user, card_count: int) -> str:
     approx_pulls = astrites // 160
 
     return (
-        f"◆ <b>AURA CATCHER — PROFILE</b> ◆\n"
+        f"🧙‍♀️ <b>{config.BOT_NAME.upper()}'S JOURNEY</b> — <i>Mage License</i>\n"
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"👤 <b>Tamer:</b> {user['full_name']} ({username})\n"
-        f"🆔 <b>Soul ID:</b> <code>{user['user_id']}</code>\n"
+        f"👤 <b>Mage:</b>         {user['full_name']} ({username})\n"
+        f"🆔 <b>Soul ID:</b>      <code>{user['user_id']}</code>\n"
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"📊 <b>STATS</b>\n"
-        f"🔮 <b>AURA Points:</b> {user['aura']:,}\n"
-        f"🍀 <b>Luck Rate:</b> {user['luck_rate']:.1f}%\n"
-        f"⭐ <b>Astrites:</b> {astrites:,} (~ {approx_pulls} pulls)\n"
+        f"📊 <b>BATTLE STATS</b>\n"
+        f"🔮 <b>Mana (MP):</b>    {user['aura']:,}\n"
+        f"🍀 <b>Luck Rate:</b>    {user['luck_rate']:.1f}%\n"
+        f"⭐ <b>Astrites:</b>     {astrites:,} <tg-spoiler>(~ {approx_pulls} pulls)</tg-spoiler>\n"
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"👗 <b>Owned Characters:</b> {card_count}\n"
-        f"🎲 <b>Total Pulls:</b> {user['total_pulls']}\n"
-        f"🌙 <b>Celestia Pity:</b> {user['celestia_pity']} / {config.PITY_HARD}\n"
-        f"🌀 <b>Arcborne Pity:</b> {user['arcborne_pity']} / {config.PITY_HARD}\n"
+        f"👗 <b>Collection:</b>   {card_count} Grimoires\n"
+        f"🎲 <b>Total Wishes:</b> {user['total_pulls']}\n"
+        f"🌙 <b>Pity (Star):</b>  {user['celestia_pity']} / {config.PITY_HARD}\n"
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"<i>Tap below to open your collection.</i>"
+        f"<i>Traveler, the path to Aureole is long.</i>"
     )
 
 
@@ -53,7 +52,7 @@ async def profile_command(msg: Message):
     card_count = count_user_cards(target_user.id)
     
     await msg.answer_photo(
-        photo=config.PROFILE_IMAGE_URL,
+        photo=URLInputFile(config.PROFILE_IMAGE_URL),
         caption=build_profile_text(user, card_count),
         parse_mode="HTML",
         reply_markup=profile_kb()
@@ -72,7 +71,7 @@ async def profile_callback(cb: CallbackQuery):
         pass
         
     await cb.message.answer_photo(
-        photo=config.PROFILE_IMAGE_URL,
+        photo=URLInputFile(config.PROFILE_IMAGE_URL),
         caption=build_profile_text(user, card_count),
         parse_mode="HTML",
         reply_markup=profile_kb()

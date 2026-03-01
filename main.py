@@ -1,7 +1,7 @@
 # main.py
 """
 ╔══════════════════════════════════════════════════════╗
-║         ANIME CARD COLLECTOR — Telegram Bot          ║
+║         FRIEREN'S JOURNEY — Telegram Bot             ║
 ║         Senior-level architecture                    ║
 ╚══════════════════════════════════════════════════════╝
 
@@ -41,7 +41,7 @@ from database.manager import init_db
 from bot.middlewares.rate_limit import RateLimitMiddleware
 
 # ─── Handlers ────────────────────────────────────────────────
-from bot.handlers import start, card, profile, gacha, collection, admin, economy, ai as ai_handler, weather, imagine
+from bot.handlers import start, card, profile, gacha, collection, admin, economy, ai as ai_handler, weather, imagine, inline_mode
 from bot.handlers import admin_cards
 
 from utils.logger import setup_logger, get_logger
@@ -82,6 +82,7 @@ async def main():
     dp.include_router(ai_handler.router)
     dp.include_router(weather.router)
     dp.include_router(imagine.router)
+    dp.include_router(inline_mode.router)
     dp.include_router(admin.router)
 
     # Bot info

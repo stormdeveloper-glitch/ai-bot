@@ -1,0 +1,10 @@
+{
+  "bots": [
+    {
+      "name": "Frieren",
+      "token": "",
+      "admin_ids": [],
+      "is_default": true
+    }
+  ]
+}

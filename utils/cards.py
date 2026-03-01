@@ -15,19 +15,14 @@ def load_cards(path: str = "data/cards.json") -> dict:
 
 def get_all_cards(include_disabled: bool = False) -> list:
     """Returns cards. By default only enabled cards (for gacha/collection)."""
-    cards = load_cards()["cards"]
-    if include_disabled:
-        return cards
-    return [c for c in cards if c.get("enabled", True)]
+    from database.manager import get_all_cards_db
+    return get_all_cards_db(enabled_only=not include_disabled)
 
 
 def get_card_by_code(code: str) -> Optional[dict]:
     """Search all cards (including disabled) by code."""
-    code = code.strip()
-    for card in load_cards()["cards"]:
-        if card["code"] == code:
-            return card
-    return None
+    from database.manager import get_card_db
+    return get_card_db(code.strip())
 
 
 def get_card_by_id(card_id: int) -> Optional[dict]:
@@ -120,6 +115,7 @@ def format_card_info(card: dict, is_new: bool = False) -> str:
     stars       = rarity_cfg.get("stars", "⭐")
     rarity_em   = rarity_cfg.get("emoji", "💎")
     new_badge   = "  ✨ <b>NEW!</b>" if is_new else ""
+    artist_line = f"🎨 <b>Artist:</b>   {card['artist']}\n" if card.get('artist') else ""
 
     return (
         f"━━━━━━━━━━━━━━━━━━━━━━\n"
@@ -133,6 +129,7 @@ def format_card_info(card: dict, is_new: bool = False) -> str:
         f"{elem_emoji} <b>Element:</b> {card['element']}\n"
         f"{weap_emoji} <b>Qurol:</b>   {card['weapon']}\n"
         f"📚 <b>Seriya:</b>  {card['series']}\n"
+        f"{artist_line}"
         f"\n"
         f"📖 <i>{card['description']}</i>\n"
         f"\n"
