@@ -33,7 +33,10 @@ async def imagine_command(msg: Message):
         )
         return
 
-    prompt = args[1].strip()
+    # Enhance prompt with a "System Prompt" for better results
+    enhanced_prompt = f"High quality, detailed, {prompt}"
+    if any(word in prompt.lower() for word in ["anime", "manga", "frieren"]):
+        enhanced_prompt = f"Anime style, high quality illustration, {prompt}"
 
     # Check API key
     api_key = config.NANO_BANANA_API_KEY or config.GEMINI_API_KEY
@@ -48,7 +51,7 @@ async def imagine_command(msg: Message):
     status_msg = await msg.reply("🎨 <b>Rasm yaratilmoqda...</b> ⏳", parse_mode="HTML")
 
     async with ChatActionSender.upload_photo(bot=msg.bot, chat_id=msg.chat.id):
-        images = await generate_image(prompt)
+        images = await generate_image(enhanced_prompt)
 
     if not images:
         await status_msg.edit_text(

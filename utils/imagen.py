@@ -31,6 +31,8 @@ async def generate_image(prompt: str, count: int = 1) -> list[bytes] | None:
         "parameters": {
             "sampleCount": min(count, 4),
             "aspectRatio": "1:1",
+            "personGeneration": "allow_adult",
+            "enhancePrompt": True
         },
     }
 
