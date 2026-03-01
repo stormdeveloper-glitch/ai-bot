@@ -46,14 +46,22 @@ async def generate_image(prompt: str, count: int = 1) -> list[bytes] | None:
                 if resp.status == 200:
                     data = await resp.json()
                     images = []
-                    for pred in data.get("predictions", []):
+                    predictions = data.get("predictions", [])
+                    if not predictions:
+                        logger.warning(f"Imagen API: No predictions. Response: {data}")
+                        return None
+                        
+                    for pred in predictions:
                         b64 = pred.get("bytesBase64Encoded")
                         if b64:
                             images.append(base64.b64decode(b64))
+                        else:
+                            # Check for safety attributes or other reasons
+                            logger.warning(f"Imagen API: Prediction missing bytes. Data: {pred}")
                     return images if images else None
                 else:
                     error = await resp.text()
-                    logger.error(f"Imagen API Error {resp.status}: {error[:200]}")
+                    logger.error(f"Imagen API Error {resp.status}: {error}")
                     return None
     except Exception as e:
         logger.error(f"Imagen Exception: {str(e)}")
